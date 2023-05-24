@@ -1,0 +1,98 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div class="container-fluid pt-2">
+    <div class="row">
+        <div class="col-lg-2 col-md-12">
+            <div class="border-bottom mb-4 pb-4">
+                <h5 class="font-weight-semi-bold mb-4 border-bottom p-2">Категорії</h5>
+                <ul>
+                    <li {% if not category %}class="selected"{% endif %}>
+                        <a href="{% url 'shop:product_list' %}">Усі товари</a>
+                    </li>
+                    {% for c in categories %}
+                        <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+                            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Виробник</h5>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" checked id="size-all"> 
+                        <a  href="?brand={{brand.brand}}">Усі виробники</a>
+                        <span class="badge border font-weight-normal"></span>
+                    </div>
+                    {% for br in brand %}
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input" checked id="size-all"> 
+                            <a class="" href="?brand={{br.id}}">{{br.brand}}</a>
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-12">
+            <div class="row">
+                <div class="col-12 pb-1">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div class="">
+                            <div class="product-list">
+                                <h5 class="pb-4">
+                                    {% if category %}
+                                        {{ category.name }}
+                                    {% else %}
+                                        Усі товари
+                                    {% endif %}
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% for product in products %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            </div>
+                            <div class="item">
+                                <div>
+                                    <a href="{{ product.get_absolute_url }}">
+                                        <img src="{% if product.image %}
+                                            {{ product.image.url }}
+                                        {% else %}
+                                            {% static 'img/no_image.png' %}    
+                                        {% endif %}" alt="">
+                                    </a>
+                                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <a href="{{ product.get_absolute_url}}">{{ product.name }}</a><br>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                
+                                    {% comment %} <p class="price">{{ product.price }} грн. skidka</p> {% endcomment %}
+
+                                    {% comment %} <form action="{% url "cart:cart_add" product.id %}" class="btn btn-sm text-dark p-0" method="post">
+                                    {{ cart_product_form }}
+                                    {% csrf_token %}
+                                    <input type="submit" value="Add to cart">
+                                    </form> {% endcomment %}
+
+                                    <p class="price ">{{ product.price }} грн.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    {% include "shop/product/pagination.html" with page=page_obj %}
+</div>	
+
+{% endblock content %}

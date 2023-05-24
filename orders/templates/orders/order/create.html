@@ -1,0 +1,64 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+    <div class="checkout_area section-padding-80 pt-5">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-md-6">
+                    <div class="checkout_details_area mt-50 clearfix">
+
+                        <div class="cart-page-heading mb-30">
+                            <h5>ВАШІ ДАНІ</h5>
+                        </div>
+
+                        <form action="." method="post" class="order-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="first_name">Ім'я<span>*</span></label>
+                                    {{form.first_name}}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_name">Прізвище<span>*</span></label>
+                                    {{form.last_name}}
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="email">Email</label>
+                                    {{form.email}}
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="city">Місто <span>*</span></label>
+                                    {{form.city}}
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="address">Адреса <span>*</span></label>
+                                    {{form.address}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
+                        <div class="order-details-confirmation">
+
+                            <div class="cart-page-heading">
+                                <h5>Ваше замовлення</h5>
+                            </div>
+
+                            <ul class="order-details-form mb-4">
+                                    {% for item in cart %}
+                                        <li><span>{{ item.product.name }} x {{ item.quantity }}</span> <span>{{ item.total_price }} грн</span></li>
+                                    {% endfor %}
+                                    <li><span>Підсумок</span> <span>{{ cart.get_total_price }} грн</span></li>
+                                    <li><span>Доставка:</span> <span>Безкоштовна</span></li>
+                                    <li><span>До сплати:</span> <span>{{ cart.get_total_price }} грн</span></li>
+                            </ul>
+                          <button class="btn btn-primary"type="submit">Зробити замовлення</button>
+                                {% csrf_token %}
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content%}

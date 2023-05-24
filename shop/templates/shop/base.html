@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Deluxe Watch{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/core-style.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class="header__main pb-5">
+    <div id="header">
+        <a href="/" class="logo">Deluxe Watch</a>
+        <a class="header_item" href="{% url 'shop:product_list' %}">Магазин</a>
+        <a class="header_item" href="{% url 'shop:review' %}">Відгуки</a>
+    </div>
+    <div id="cart-area">
+        {% with total_items=cart|length %}
+            <a href="{% url 'cart:cart_detail' %}" id="essenceCartBtn"><img src="{% static 'img/cart.png' %}" alt=""> <span>{{ total_items }}</span></a>
+        {% endwith %}
+    </div>
+    <div id="search-area">
+        <form class="form-inline my-2 my-lg-0 border" action="{% url 'shop:search_product'%}" method="GET">
+            <input class="form-control mr-sm-2" type="search" placeholder="Пошук" aria-label="Пошук" name="Q">
+        </form>
+    </div>
+</div>
+<div id="content">
+    {% block content %}
+    {% endblock content %}
+</div>
+<div>
+    {% block main %}
+    {% endblock main %}
+</div>
+
+
+</body>
+</html>

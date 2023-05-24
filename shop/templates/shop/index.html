@@ -1,0 +1,55 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+
+{% block main %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" type="text/css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<div style="background-image: url(static/img/background.jpg); height: 700px; width: 100%;"></div>
+<div class="border-bottom">
+    <div class="d-flex justify-content-center pt-5 border-bottom">
+        <h5>БЕСТСЕЛЛЕРИ</h5>
+    </div>
+<div class="owl-carousel owl-theme pb-5">
+    {% for item in top %}
+        <div class="item pr-2 py-3">
+            <a href="{{ item.get_absolute_url }}">
+                <img src="{% if item.image %}
+                    {{ item.image.url }}
+                {% else %}
+                    {% static 'img/no_image.png' %}    
+                {% endif %}" alt="">
+            </a>
+            <a style="color:black;" href="{{ item.get_absolute_url}}">{{ item.name }}</a><br>
+                {{ item.price }}грн.
+        </div>
+    {% endfor %}
+</div>
+</div>
+
+
+<script>
+$('.owl-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    dots:false,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:3
+        },
+        1000:{
+            items:5
+        }
+    }
+})
+</script>
+
+{% endblock main %}
